@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Demo Drop: Industry Standard Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #fafaf9; color: #1c1917; } /* Warm neutral background */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .step-active { border-color: #0d9488; background-color: #ccfbf1; color: #0f766e; }
+        .step-inactive { border-color: #e5e5e5; background-color: #ffffff; color: #a3a3a3; }
+        .transition-all-custom { transition: all 0.5s ease-in-out; }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals with Professional Teal/Indigo Accents -->
+    <!-- Application Structure Plan: The SPA is designed as an interactive pitch deck/whitepaper. 
+         1. Hero: Immediate Value Prop.
+         2. The Problem (Black Box): Interactive comparison.
+         3. The Solution (Simulation): Users 'submit' a demo to see the transparency features live (Progress Tracker & Usage Monitor).
+         4. Two-Sided Market: Tabbed interface for Artists vs Labels.
+         5. Business Model: Interactive calculator and charts to prove financial viability (scaling the 50k submissions model).
+    -->
+    <!-- Visualization & Content Choices: 
+         1. Timeline Simulation (HTML/CSS/JS): Demonstrates the core "Progress Tracker" feature. Chosen over static text to show 'real-time' value.
+         2. Revenue Projection (Bar Chart): Visualizes the $5.4M potential based on credit float logic.
+         3. Market Benefit Comparison (Tabbed Grid): Organizes dense text into consumable chunks.
+         4. NO SVG/Mermaid used. Canvas used for Charts.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-stone-50 text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center gap-2">
+                        <div class="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">D</div>
+                        <span class="font-bold text-xl tracking-tight text-slate-900">The Demo Drop</span>
+                    </div>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                    <a href="#problem" class="border-transparent text-slate-500 hover:border-teal-500 hover:text-slate-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">The Problem</a>
+                    <a href="#solution" class="border-transparent text-slate-500 hover:border-teal-500 hover:text-slate-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">The Solution</a>
+                    <a href="#market" class="border-transparent text-slate-500 hover:border-teal-500 hover:text-slate-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Market Value</a>
+                    <a href="#business" class="border-transparent text-slate-500 hover:border-teal-500 hover:text-slate-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Business Model</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-white">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl font-extrabold text-slate-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+                The End of the "Black Box"
+            </h1>
+            <p class="mt-6 max-w-2xl mx-auto text-xl text-slate-500">
+                Establishing the new de facto global standard for electronic music demo submissions. 
+                Replacing silence with <span class="text-teal-600 font-bold">Guaranteed Data</span>.
+            </p>
+            <div class="mt-10">
+                <a href="#solution" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 md:py-4 md:text-lg md:px-10 shadow-lg transition-transform hover:scale-105">
+                    Experience the New Standard
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- The Problem Section -->
+    <section id="problem" class="py-16 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-base font-semibold text-teal-600 tracking-wide uppercase">The Context</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                    Why the Industry is Broken
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-slate-500 mx-auto">
+                    The current "Black Box" model wastes time, money, and emotional capital. Click the cards below to compare the current reality with our proposed future.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Old Way -->
+                <div class="bg-white overflow-hidden shadow rounded-lg border-l-4 border-red-500 cursor-pointer hover:shadow-xl transition-shadow" onclick="toggleCard('old-way-details')">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg leading-6 font-medium text-slate-900">The Current Reality</h3>
+                            <span class="text-red-500 text-2xl font-bold">&times;</span>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-sm text-slate-500">Generic emails. Web forms. Absolute silence.</p>
+                        </div>
+                        <div id="old-way-details" class="mt-4 text-sm text-slate-600 hidden">
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><strong>No Transparency:</strong> Did they open it? Did they listen?</li>
+                                <li><strong>Wasted Capital:</strong> Emotional burnout and time loss.</li>
+                                <li><strong>Spam Overload:</strong> Labels drown in unorganized inboxes.</li>
+                            </ul>
+                        </div>
+                        <p class="mt-4 text-xs text-teal-600 font-semibold">Click to reveal details</p>
+                    </div>
+                </div>
+
+                <!-- New Way -->
+                <div class="bg-white overflow-hidden shadow rounded-lg border-l-4 border-teal-500 cursor-pointer hover:shadow-xl transition-shadow" onclick="toggleCard('new-way-details')">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg leading-6 font-medium text-slate-900">The Demo Drop Solution</h3>
+                            <span class="text-teal-500 text-2xl font-bold">&#10003;</span>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-sm text-slate-500">Unified platform. Real-time data. Professional feedback.</p>
+                        </div>
+                        <div id="new-way-details" class="mt-4 text-sm text-slate-600 hidden">
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><strong>Progress Tracker:</strong> Know exactly where your track is.</li>
+                                <li><strong>Usage Monitor:</strong> See external DJ spins and radio plays.</li>
+                                <li><strong>Structured Data:</strong> Pre-filtered dashboard for A&R teams.</li>
+                            </ul>
+                        </div>
+                        <p class="mt-4 text-xs text-teal-600 font-semibold">Click to reveal details</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Solution Simulation -->
+    <section id="solution" class="py-16 bg-white border-y border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center mb-12">
+                <h2 class="text-base font-semibold text-indigo-600 tracking-wide uppercase">Interactive Demo</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                    Eliminating Doubt in Real-Time
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-slate-500 mx-auto">
+                    Experience the artist's view. Click "Simulate Submission" to watch the lifecycle of a track in The Demo Drop ecosystem.
+                </p>
+            </div>
+
+            <div class="bg-stone-50 rounded-2xl p-8 shadow-inner border border-stone-200">
+                <div class="flex justify-center mb-8">
+                    <button onclick="runSimulation()" id="sim-btn" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-bold hover:bg-indigo-700 shadow-md transition-colors flex items-center gap-2">
+                        <span>&#9658;</span> Simulate Submission Lifecycle
+                    </button>
+                </div>
+
+                <!-- Progress Tracker Viz -->
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                        <div class="w-full border-t border-stone-300"></div>
+                    </div>
+                    <div class="relative flex justify-between">
+                        <!-- Step 1 -->
+                        <div class="flex flex-col items-center group">
+                            <div id="step-1" class="h-12 w-12 rounded-full border-2 step-inactive flex items-center justify-center bg-white z-10 transition-all-custom font-bold">1</div>
+                            <div class="mt-2 bg-white px-2 text-sm font-medium text-slate-900">Received</div>
+                            <div class="text-xs text-slate-500 mt-1 max-w-[100px] text-center">Logged & In Queue</div>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="flex flex-col items-center group">
+                            <div id="step-2" class="h-12 w-12 rounded-full border-2 step-inactive flex items-center justify-center bg-white z-10 transition-all-custom font-bold">2</div>
+                            <div class="mt-2 bg-white px-2 text-sm font-medium text-slate-900">Under Review</div>
+                            <div class="text-xs text-indigo-600 font-bold mt-1 max-w-[120px] text-center">Track Heard by A&R</div>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="flex flex-col items-center group">
+                            <div id="step-3" class="h-12 w-12 rounded-full border-2 step-inactive flex items-center justify-center bg-white z-10 transition-all-custom font-bold">3</div>
+                            <div class="mt-2 bg-white px-2 text-sm font-medium text-slate-900">Decision Made</div>
+                            <div class="text-xs text-slate-500 mt-1 max-w-[100px] text-center">Signed / Archived</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Feedback Area -->
+                <div id="feedback-area" class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 opacity-0 transition-opacity duration-1000">
+                    <!-- Internal Transparency -->
+                    <div class="bg-white p-6 rounded-lg shadow border border-stone-100">
+                        <h4 class="text-sm font-bold text-slate-400 uppercase mb-2">Internal Feedback</h4>
+                        <div class="flex items-start gap-3">
+                            <div class="text-2xl text-teal-500">&#10004;</div>
+                            <div>
+                                <p class="font-bold text-slate-800">A&R Note:</p>
+                                <p class="text-slate-600 text-sm italic">"Great energy on the drop. We are testing this on the radio show this weekend."</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- External Validation -->
+                    <div class="bg-white p-6 rounded-lg shadow border border-indigo-100 bg-indigo-50/30">
+                        <h4 class="text-sm font-bold text-indigo-400 uppercase mb-2">External Usage Monitor</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between text-sm border-b border-indigo-100 pb-2">
+                                <div>
+                                    <span class="font-bold text-slate-800">DJ Firefly</span>
+                                    <span class="text-slate-500">played on</span>
+                                    <span class="text-indigo-600 font-medium">Global EDM Radio</span>
+                                </div>
+                                <span class="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Just Now</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <div>
+                                    <span class="font-bold text-slate-800">Promo Pool</span>
+                                    <span class="text-slate-500">added to</span>
+                                    <span class="text-indigo-600 font-medium">Miami Week Prep</span>
+                                </div>
+                                <span class="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded">2m ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Two-Sided Market Analysis -->
+    <section id="market" class="py-16 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-extrabold text-slate-900">Value for Everyone</h2>
+                <p class="mt-4 text-xl text-slate-500">A sustainable ecosystem requires solving pain points for both sides of the transaction.</p>
+            </div>
+
+            <!-- Toggle Buttons -->
+            <div class="flex justify-center mb-8">
+                <div class="bg-white p-1 rounded-lg border border-stone-200 inline-flex">
+                    <button onclick="switchMarketView('artist')" id="btn-artist" class="px-6 py-2 rounded-md text-sm font-medium bg-teal-100 text-teal-700 shadow-sm transition-colors">For Artists</button>
+                    <button onclick="switchMarketView('label')" id="btn-label" class="px-6 py-2 rounded-md text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">For Labels</button>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="bg-white shadow-lg rounded-xl overflow-hidden min-h-[300px]">
+                <!-- Artist View -->
+                <div id="view-artist" class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4">Guaranteed Data & Validation</h3>
+                        <p class="text-slate-600 mb-6">Artists stop guessing and start managing their career with real data. Every submission is a professional transaction.</p>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="flex-shrink-0 h-6 w-6 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center font-bold text-xs mr-3">1</span>
+                                <span class="text-slate-700">Eliminate "Black Box" silence.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="flex-shrink-0 h-6 w-6 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center font-bold text-xs mr-3">2</span>
+                                <span class="text-slate-700">Receive actionable feedback notes.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="flex-shrink-0 h-6 w-6 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center font-bold text-xs mr-3">3</span>
+                                <span class="text-slate-700">Validate market potential via Usage Monitor.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-teal-50 p-6 rounded-xl border border-teal-100">
+                        <div class="chart-container">
+                            <canvas id="artistChart"></canvas>
+                        </div>
+                        <p class="text-center text-xs text-slate-500 mt-2">Artist Satisfaction vs. Traditional Methods</p>
+                    </div>
+                </div>
+
+                <!-- Label View -->
+                <div id="view-label" class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center hidden">
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4">Pre-Filtered, Efficient Pipeline</h3>
+                        <p class="text-slate-600 mb-6">Labels reclaim their time. The centralized dashboard replaces cluttered inboxes with organized, actionable intelligence.</p>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="flex-shrink-0 h-6 w-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-xs mr-3">1</span>
+                                <span class="text-slate-700">Drastically reduce spam submissions.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="flex-shrink-0 h-6 w-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-xs mr-3">2</span>
+                                <span class="text-slate-700">Update status for thousands of tracks in seconds.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="flex-shrink-0 h-6 w-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-xs mr-3">3</span>
+                                <span class="text-slate-700">Identify trending micro-genres early.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-100">
+                        <div class="chart-container">
+                            <canvas id="labelChart"></canvas>
+                        </div>
+                        <p class="text-center text-xs text-slate-500 mt-2">A&R Efficiency Gains (Time Saved)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Business Model Section -->
+    <section id="business" class="py-16 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-3 lg:gap-8">
+                <div class="lg:col-span-1">
+                    <h2 class="text-3xl font-extrabold tracking-tight sm:text-4xl text-teal-400">The $5.4M Opportunity</h2>
+                    <p class="mt-4 text-slate-300">
+                        The credit-based model ensures scale and financial security. Small transaction fees ($5) are anchored by a minimum buy-in ($20), creating a powerful revenue float.
+                    </p>
+                    
+                    <div class="mt-8 bg-slate-800 p-6 rounded-lg border border-slate-700">
+                        <label for="submission-volume" class="block text-sm font-medium text-slate-300">Monthly Submissions</label>
+                        <input type="range" id="submission-volume" min="10000" max="100000" step="5000" value="50000" class="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer mt-2 accent-teal-500" oninput="updateRevenueCalc()">
+                        <div class="flex justify-between text-xs text-slate-400 mt-1">
+                            <span>10k</span>
+                            <span id="vol-display" class="font-bold text-white">50k</span>
+                            <span>100k</span>
+                        </div>
+
+                        <div class="mt-6 space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Submission Revenue:</span>
+                                <span id="rev-sub" class="text-teal-400 font-bold">$250,000</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">New Sign-up Float:</span>
+                                <span id="rev-float" class="text-indigo-400 font-bold">$200,000</span>
+                            </div>
+                            <div class="border-t border-slate-600 pt-2 mt-2 flex justify-between text-lg">
+                                <span class="font-bold">Total Annual:</span>
+                                <span id="rev-total" class="font-extrabold text-white">$5.4M</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 lg:mt-0 lg:col-span-2">
+                    <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 h-full">
+                         <h3 class="text-lg font-medium text-white mb-4">Projected Revenue Mix</h3>
+                         <div class="chart-container">
+                             <canvas id="revenueChart"></canvas>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white border-t border-stone-200">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-base text-slate-400">
+                &copy; 2025 The Demo Drop. Defining the Future of Music A&R.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // --- LOGIC: Simulation ---
+        function runSimulation() {
+            const btn = document.getElementById('sim-btn');
+            const step1 = document.getElementById('step-1');
+            const step2 = document.getElementById('step-2');
+            const step3 = document.getElementById('step-3');
+            const feedbackArea = document.getElementById('feedback-area');
+
+            // Reset
+            [step1, step2, step3].forEach(el => {
+                el.className = "h-12 w-12 rounded-full border-2 step-inactive flex items-center justify-center bg-white z-10 transition-all-custom font-bold";
+            });
+            feedbackArea.classList.remove('opacity-100');
+            feedbackArea.classList.add('opacity-0');
+            btn.disabled = true;
+            btn.innerHTML = `<span class="animate-spin h-4 w-4 border-2 border-white rounded-full border-t-transparent mr-2"></span> Processing...`;
+
+            // Sequence
+            setTimeout(() => {
+                // Step 1: Received
+                step1.className = "h-12 w-12 rounded-full border-2 step-active flex items-center justify-center z-10 transition-all-custom font-bold scale-110 shadow-lg";
+            }, 500);
+
+            setTimeout(() => {
+                // Step 2: Under Review (Key Value Prop)
+                step2.className = "h-12 w-12 rounded-full border-2 step-active flex items-center justify-center z-10 transition-all-custom font-bold scale-110 shadow-lg";
+            }, 2000);
+
+            setTimeout(() => {
+                // Step 3: Decision & Feedback Reveal
+                step3.className = "h-12 w-12 rounded-full border-2 step-active flex items-center justify-center z-10 transition-all-custom font-bold scale-110 shadow-lg";
+                feedbackArea.classList.remove('opacity-0');
+                feedbackArea.classList.add('opacity-100');
+                btn.innerHTML = "<span>&#10227;</span> Reset Simulation";
+                btn.disabled = false;
+                btn.onclick = resetSimulation;
+            }, 4000);
+        }
+
+        function resetSimulation() {
+             const btn = document.getElementById('sim-btn');
+             btn.innerHTML = "<span>&#9658;</span> Simulate Submission Lifecycle";
+             btn.onclick = runSimulation;
+             runSimulation(); // immediate restart or just reset UI logic could go here
+             // For UX, let's just trigger the reset visual logic inside runSimulation's start
+        }
+
+        function toggleCard(id) {
+            const el = document.getElementById(id);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+
+        // --- LOGIC: Market View Switching ---
+        function switchMarketView(view) {
+            const artistBtn = document.getElementById('btn-artist');
+            const labelBtn = document.getElementById('btn-label');
+            const artistView = document.getElementById('view-artist');
+            const labelView = document.getElementById('view-label');
+
+            if (view === 'artist') {
+                artistBtn.className = "px-6 py-2 rounded-md text-sm font-medium bg-teal-100 text-teal-700 shadow-sm transition-colors";
+                labelBtn.className = "px-6 py-2 rounded-md text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors";
+                artistView.classList.remove('hidden');
+                labelView.classList.add('hidden');
+            } else {
+                labelBtn.className = "px-6 py-2 rounded-md text-sm font-medium bg-indigo-100 text-indigo-700 shadow-sm transition-colors";
+                artistBtn.className = "px-6 py-2 rounded-md text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors";
+                labelView.classList.remove('hidden');
+                artistView.classList.add('hidden');
+            }
+        }
+
+        // --- LOGIC: Revenue Calculator ---
+        let revenueChartInstance = null;
+
+        function initRevenueChart() {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            revenueChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [
+                        {
+                            label: 'Submission Fees ($5)',
+                            data: [250, 260, 270, 280, 290, 300], // Mock growth
+                            backgroundColor: '#0d9488', // teal-600
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'New User Float ($20)',
+                            data: [200, 210, 205, 220, 215, 230],
+                            backgroundColor: '#4f46e5', // indigo-600
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#cbd5e1' } }, // slate-300
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    },
+                    scales: {
+                        x: { 
+                            stacked: true,
+                            ticks: { color: '#94a3b8' },
+                            grid: { display: false }
+                        },
+                        y: { 
+                            stacked: true,
+                            ticks: { color: '#94a3b8', callback: (val) => '$' + val + 'k' },
+                            grid: { color: '#334155' } // slate-700
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateRevenueCalc() {
+            const volume = parseInt(document.getElementById('submission-volume').value);
+            document.getElementById('vol-display').innerText = (volume / 1000) + 'k';
+
+            // Constants from Business Model
+            const SUB_PRICE = 5;
+            const SIGNUP_FLOAT = 20;
+            const NEW_USER_RATIO = 0.2; // Assume 20% of monthly volume are new users buying credits
+
+            const monthlySubRev = volume * SUB_PRICE;
+            const monthlyFloatRev = (volume * NEW_USER_RATIO) * SIGNUP_FLOAT;
+            const annualTotal = (monthlySubRev + monthlyFloatRev) * 12;
+
+            document.getElementById('rev-sub').innerText = '$' + (monthlySubRev).toLocaleString();
+            document.getElementById('rev-float').innerText = '$' + (monthlyFloatRev).toLocaleString();
+            document.getElementById('rev-total').innerText = '$' + (annualTotal / 1000000).toFixed(1) + 'M';
+
+            // Update Chart Data Dynamic Simulation
+            if (revenueChartInstance) {
+                const baseSub = monthlySubRev / 1000;
+                const baseFloat = monthlyFloatRev / 1000;
+                
+                revenueChartInstance.data.datasets[0].data = [baseSub, baseSub*1.05, baseSub*1.1, baseSub*1.15, baseSub*1.2, baseSub*1.25];
+                revenueChartInstance.data.datasets[1].data = [baseFloat, baseFloat*1.02, baseFloat*1.05, baseFloat*1.03, baseFloat*1.08, baseFloat*1.1];
+                revenueChartInstance.update();
+            }
+        }
+
+        // --- CHARTS: Market Benefits ---
+        function initMarketCharts() {
+            // Artist Chart: Satisfaction
+            new Chart(document.getElementById('artistChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Satisfied (Demo Drop)', 'Unsatisfied (Email)'],
+                    datasets: [{
+                        data: [85, 15],
+                        backgroundColor: ['#0d9488', '#e2e8f0'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+
+            // Label Chart: Time Saved
+            new Chart(document.getElementById('labelChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Email Sorting', 'Demo Listening', 'Admin Tasks'],
+                    datasets: [{
+                        label: 'Time Spent (Traditional)',
+                        data: [40, 30, 30],
+                        backgroundColor: '#cbd5e1'
+                    }, {
+                        label: 'Time Spent (Demo Drop)',
+                        data: [5, 50, 10], // More time listening, less admin
+                        backgroundColor: '#4f46e5'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Hours/Week' } } }
+                }
+            });
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            initRevenueChart();
+            initMarketCharts();
+            updateRevenueCalc(); // Set initial values
+        });
+
+    </script>
+</body>
+</html>
